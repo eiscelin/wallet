@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Navbar() {
+export default function Navbar({ onNavigate, loggedIn }) {
   const [open, setOpen] = useState(false);
 
   const links = [
@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="container">
-        <a href="#home" className="navbar-brand">Eis</a>
+        <a href="#home" className="navbar-brand" onClick={(e) => { e.preventDefault(); onNavigate?.("home"); }}>Eis</a>
         <button className="navbar-toggle" onClick={() => setOpen(!open)}>
           ☰
         </button>
@@ -27,6 +27,15 @@ export default function Navbar() {
               <a href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
             </li>
           ))}
+          <li>
+            <button
+              className="nav-auth-btn btn btn-primary"
+              style={{ padding: "6px 18px", fontSize: "0.85rem" }}
+              onClick={() => { onNavigate?.(loggedIn ? "dashboard" : "auth"); setOpen(false); }}
+            >
+              {loggedIn ? "Dashboard" : "Log In"}
+            </button>
+          </li>
         </ul>
       </div>
     </nav>
